@@ -63,7 +63,15 @@ async function descargarAdjuntos(token, mensajes, zip, totalGlobal, yaDescargado
       const binary = atob(base64);
       const bytes = new Uint8Array(binary.length);
       for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-      zip.file(parte.filename, bytes);
+      let nombreFinal = parte.filename;
+      if (zip.files[nombreFinal]) {
+        const ext = nombreFinal.includes('.') ? '.' + nombreFinal.split('.').pop() : '';
+        const base = ext ? nombreFinal.slice(0, -ext.length) : nombreFinal;
+        let contador = 1;
+        while (zip.files[`${base} (${contador})${ext}`]) contador++;
+        nombreFinal = `${base} (${contador})${ext}`;
+      }
+      zip.file(nombreFinal, bytes);
       descargados++;
       actualizarProgreso(descargados, totalGlobal, i18n('status_downloading'));
     }
@@ -131,6 +139,7 @@ document.getElementById('btn').addEventListener('click', async () => {
     const url = URL.createObjectURL(blob);
     const fecha = new Date().toISOString().slice(0, 10);
     await chrome.downloads.download({ url, filename: `GmailZip_${fecha}.zip`, saveAs: false });
+    URL.revokeObjectURL(url);
 
     estado.className = 'ok';
     estado.textContent = `✅ ${total} ${i18n('status_done')} GmailZip_${fecha}.zip`;

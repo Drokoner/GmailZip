@@ -11,6 +11,7 @@ Created by [@Drokoner](https://github.com/Drokoner) with the help of [Claude](ht
 - 🔍 Search emails by subject keyword
 - 📅 Filter by number of days (e.g. last 10 days)
 - 📦 Downloads all attachments as a single ZIP file
+- 🔁 Duplicate filenames are renamed automatically (file, file (1), file (2)...)
 - 📊 Progress bar during download and compression
 - 🌍 Multilingual: English and Spanish (auto-detected from browser)
 - 🔒 Secure: read-only Gmail access, no external servers, your data never leaves your machine
@@ -73,7 +74,6 @@ Done — the GmailZip icon will appear in your Chrome toolbar.
 ## Known limitations
 
 - Maximum 50 emails per search (Gmail API limit)
-- If two attachments share the same filename, one will overwrite the other in the ZIP
 - No auto-update — download new versions manually from this repository
 - Google will show an "unverified app" warning on first use — this is expected for locally installed extensions. Click **Continue** to proceed
 
