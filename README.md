@@ -9,7 +9,7 @@ Created by [@Drokoner](https://github.com/Drokoner) with the help of [Claude](ht
 ## Features
 
 - 🔍 Search emails by subject keyword
-- 📅 Filter by number of days (e.g. last 10 days)
+- 📅 Filter by date range (from / to)
 - 📦 Downloads all attachments as a single ZIP file
 - 🔁 Duplicate filenames are renamed automatically (file, file (1), file (2)...)
 - 📊 Progress bar during download and compression
@@ -64,7 +64,7 @@ Done — the GmailZip icon will appear in your Chrome toolbar.
 
 1. Click the **GmailZip** icon in Chrome
 2. Enter the **email subject** to search for (e.g. `Invoice`)
-3. Set the **number of days** to look back (e.g. `10`)
+3. Set the **date range** (from / to) — defaults to the current month
 4. Click **Download attachments as ZIP**
 5. The first time, Google will ask you to authorize access — choose the Gmail account you want to use
 6. A file named `GmailZip_YYYY-MM-DD.zip` will be saved to your Downloads folder
