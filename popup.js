@@ -1,9 +1,16 @@
 const i18n = chrome.i18n.getMessage.bind(chrome.i18n);
 
 document.getElementById('label-asunto').textContent = i18n('label_subject');
-document.getElementById('label-dias').textContent = i18n('label_days');
+document.getElementById('label-desde').textContent = i18n('label_desde');
+document.getElementById('label-hasta').textContent = i18n('label_hasta');
 document.getElementById('asunto').placeholder = i18n('placeholder_subject');
 document.getElementById('btn').textContent = i18n('btn_download');
+
+// Valores por defecto: primer día del mes actual hasta hoy
+const hoy = new Date();
+const primerDiaMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+document.getElementById('hasta').value = hoy.toISOString().slice(0, 10);
+document.getElementById('desde').value = primerDiaMes.toISOString().slice(0, 10);
 
 function extraerAdjuntos(partes) {
   let adjuntos = [];
@@ -25,9 +32,10 @@ function actualizarProgreso(actual, total, texto) {
   document.getElementById('progreso-texto').textContent = texto + ' (' + actual + '/' + total + ')';
 }
 
-async function contarAdjuntos(token, query, dias) {
-  const fecha = Math.floor((Date.now() - (dias + 1) * 86400000) / 1000);
-  const q = encodeURIComponent(`subject:"${query}" after:${fecha}`);
+async function contarAdjuntos(token, query, desde, hasta) {
+  const fechaDesde = Math.floor(new Date(desde).getTime() / 1000);
+  const fechaHasta = Math.floor(new Date(hasta).getTime() / 1000) + 86400; // incluir el día completo
+  const q = encodeURIComponent(`subject:"${query}" after:${fechaDesde} before:${fechaHasta}`);
   const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${q}&maxResults=50`, {
     headers: { Authorization: `Bearer ${token}` }
   });
@@ -82,7 +90,8 @@ async function descargarAdjuntos(token, mensajes, zip, totalGlobal, yaDescargado
 document.getElementById('btn').addEventListener('click', async () => {
   const estado = document.getElementById('estado');
   const asunto = document.getElementById('asunto').value.trim();
-  const dias = parseInt(document.getElementById('dias').value);
+  const desde = document.getElementById('desde').value;
+  const hasta = document.getElementById('hasta').value;
   const btn = document.getElementById('btn');
   const progresoContainer = document.getElementById('progreso-container');
 
@@ -91,9 +100,14 @@ document.getElementById('btn').addEventListener('click', async () => {
     estado.textContent = i18n('status_no_subject');
     return;
   }
-  if (!dias || dias < 1) {
+  if (!desde || !hasta) {
     estado.className = 'error';
-    estado.textContent = i18n('status_no_days');
+    estado.textContent = i18n('status_no_dates');
+    return;
+  }
+  if (desde > hasta) {
+    estado.className = 'error';
+    estado.textContent = i18n('status_invalid_dates');
     return;
   }
 
@@ -112,7 +126,7 @@ document.getElementById('btn').addEventListener('click', async () => {
     });
 
     estado.textContent = i18n('status_searching');
-    const { mensajes, total } = await contarAdjuntos(token, asunto, dias);
+    const { mensajes, total } = await contarAdjuntos(token, asunto, desde, hasta);
 
     if (total === 0) {
       estado.className = 'error';

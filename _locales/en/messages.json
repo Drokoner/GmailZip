@@ -2,7 +2,8 @@
   "app_name": { "message": "GmailZip" },
   "app_description": { "message": "Download email attachments as a ZIP file" },
   "label_subject": { "message": "Email subject" },
-  "label_days": { "message": "Last how many days" },
+  "label_desde": { "message": "From" },
+  "label_hasta": { "message": "To" },
   "placeholder_subject": { "message": "E.g.: Invoice" },
   "btn_download": { "message": "Download attachments as ZIP" },
   "status_connecting": { "message": "Connecting to Gmail..." },
@@ -12,6 +13,7 @@
   "status_done": { "message": "attachments downloaded in" },
   "status_empty": { "message": "No attachments found for that criteria." },
   "status_no_subject": { "message": "Please enter a subject." },
-  "status_no_days": { "message": "Please enter a valid number of days." },
+  "status_no_dates": { "message": "Please select start and end dates." },
+  "status_invalid_dates": { "message": "Start date cannot be later than end date." },
   "status_generating": { "message": "Generating ZIP..." }
 }

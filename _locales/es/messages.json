@@ -2,7 +2,8 @@
   "app_name": { "message": "GmailZip" },
   "app_description": { "message": "Descarga adjuntos de correos como un fichero ZIP" },
   "label_subject": { "message": "Asunto del correo" },
-  "label_days": { "message": "Últimos cuántos días" },
+  "label_desde": { "message": "Desde" },
+  "label_hasta": { "message": "Hasta" },
   "placeholder_subject": { "message": "Ej: Factura" },
   "btn_download": { "message": "Descargar adjuntos como ZIP" },
   "status_connecting": { "message": "Conectando con Gmail..." },
@@ -12,6 +13,7 @@
   "status_done": { "message": "adjunto(s) descargados en" },
   "status_empty": { "message": "No se encontraron adjuntos con ese criterio." },
   "status_no_subject": { "message": "Por favor escribe un asunto." },
-  "status_no_days": { "message": "Por favor escribe un número de días válido." },
+  "status_no_dates": { "message": "Por favor selecciona las fechas de inicio y fin." },
+  "status_invalid_dates": { "message": "La fecha de inicio no puede ser posterior a la fecha de fin." },
   "status_generating": { "message": "Generando ZIP..." }
 }
